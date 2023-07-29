@@ -31,7 +31,19 @@ If you want someone to host your platform, contact me. If you are a non-profit o
 
 INSTALLING
 ----------
+Before everything, make sure to setup Postgresql correctly.
+For Windows:
+1. install it normally.
+2. set the ENVs in `C:\Program Files\PostgreSQL\15\pg_env.bat`
+3. in `PostgreSQL\15\data\postgresql.conf` replace `password_encryption = scram-sha-256` with `password_encryption = md5`
+4. in `PostgreSQL\15\data\pg_hba.conf` replace `scram-sha-256` with `md5` under method
+5. add `local nightshade tester md5` to `pg_hba.conf`
+6. open the cmd and run `psql`, then type the password
+7. create another DBUser `CREATE ROLE tester SUPERUSER PASSWORD 'test_password';` **make sure to change the password when used in production!**
+8. then create the DB `CREATE DATABASE nightshade; ALTER DATABASE nightshade OWNER TO tester;`
+9. then restart the server `pg_ctl.exe restart -D  "C:\Program Files\PostgreSQL\15\data"`
 
+   
 Install all the requirements in the requirements.txt
 
     python2 -m pip install -r requirements.txt
